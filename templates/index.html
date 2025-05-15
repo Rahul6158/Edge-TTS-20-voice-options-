@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Voice Studio | Professional TTS Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-blue: #4fc3f7;
+            --neon-pink: #ff4081;
+            --neon-green: #76ff03;
+            --neon-purple: #b388ff;
+            --dark-bg: #0f0f15;
+            --darker-bg: #0a0a0f;
+            --card-bg: #1a1a24;
+            --text-primary: #f0f0f0;
+            --text-secondary: #b0b0c0;
+            --accent-gradient: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 2rem;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(79, 195, 247, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(179, 136, 255, 0.05) 0%, transparent 20%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            color: var(--neon-blue);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .card-title svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        
+        select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23b0b0c0'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 0 2px rgba(79, 195, 247, 0.2);
+        }
+        
+        .voice-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .voice-name {
+            font-weight: 600;
+            color: var(--neon-green);
+        }
+        
+        .voice-origin {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+        
+        .preview-text {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            border-left: 3px solid var(--neon-purple);
+        }
+        
+        /* Enhanced Text Input with Glow */
+        .neon-text-input {
+            width: 100%;
+            min-height: 150px;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            background-color: rgba(79, 195, 247, 0.03);
+            color: var(--neon-blue);
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1rem;
+            resize: vertical;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 5px rgba(79, 195, 247, 0.3);
+            line-height: 1.6;
+        }
+        
+        .neon-text-input:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 10px rgba(79, 195, 247, 0.2);
+            text-shadow: 0 0 8px rgba(79, 195, 247, 0.5);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: var(--accent-gradient);
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(79, 195, 247, 0.3);
+        }
+        
+        .btn-secondary {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Enhanced Output Container */
+        .output-container {
+            background: linear-gradient(145deg, #1a1a24, #232330);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border: 1px solid rgba(79, 195, 247, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .output-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--neon-green);
+            margin: 0;
+        }
+        
+        .output-duration {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        /* Styled Audio Player */
+        .styled-audio-player {
+            width: 100%;
+            margin-top: 1rem;
+            filter: drop-shadow(0 0 5px rgba(79, 195, 247, 0.3));
+        }
+        
+        /* Download Button */
+        .download-btn {
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-blue));
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(179, 136, 255, 0.4);
+        }
+        
+        /* Animation for text glow */
+        @keyframes text-glow {
+            0% { text-shadow: 0 0 5px rgba(79, 195, 247, 0.3); }
+            50% { text-shadow: 0 0 10px rgba(79, 195, 247, 0.5); }
+            100% { text-shadow: 0 0 5px rgba(79, 195, 247, 0.3); }
+        }
+        
+        .glowing-text {
+            animation: text-glow 3s infinite;
+        }
+        
+        /* Layout */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        .output-section {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .grid-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            body {
+                padding: 1rem;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+        }
+        
+        /* Loading spinner */
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>NEON VOICE STUDIO</h1>
+            <p class="subtitle">Professional Text-to-Speech Generation with Neural Voices</p>
+        </header>
+        
+        <div class="grid-layout">
+            <div class="card">
+                <h2 class="card-title">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6zm-2 16c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+                    </svg>
+                    Voice Selection
+                </h2>
+                
+                <div class="form-group">
+                    <label for="voice-select">Choose a Voice Model</label>
+                    <select id="voice-select">
+                        {% for voice in voices %}
+                            <option value="{{ voice }}">{{ voice }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="voice-info">
+                    <span class="voice-name" id="current-voice-name">en-GB-RyanNeural</span>
+                    <span class="voice-origin" id="current-voice-origin">British Male</span>
+                </div>
+                
+                <p class="preview-text" id="preview-text">Hello! This is a sample of my voice.</p>
+                
+                <div class="button-group">
+                    <button id="preview-btn" class="btn-secondary">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"></path>
+                            <path d="M8.5 8.5v.01"></path>
+                            <path d="M16 15.5v.01"></path>
+                            <path d="M12 12v.01"></path>
+                        </svg>
+                        Preview Voice
+                    </button>
+                </div>
+                
+                <audio id="preview-audio" controls class="styled-audio-player" style="display: none;"></audio>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                    </svg>
+                    Text Input
+                </h2>
+                
+                <div class="form-group">
+                    <label for="text-input">Enter Your Text</label>
+                    <textarea id="text-input" class="neon-text-input" placeholder="Type or paste your text here..."></textarea>
+                </div>
+                
+                <div class="button-group">
+                    <button id="generate-btn" class="btn-primary">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 16.9V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16l7-4 7 4z"></path>
+                            <path d="M17 16.9V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v16l7-4 7 4z"></path>
+                        </svg>
+                        Generate Speech
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card output-section" id="output-section">
+            <div class="output-container">
+                <div class="output-header">
+                    <h3 class="output-title glowing-text">Generated Audio Output</h3>
+                    <span class="output-duration" id="duration-display">00:00</span>
+                </div>
+                
+                <audio id="output-audio" controls class="styled-audio-player"></audio>
+                
+                <div style="text-align: right; margin-top: 1rem;">
+                    <a id="download-link" href="#" download>
+                        <button class="download-btn">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            Download MP3
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const voiceSelect = document.getElementById('voice-select');
+            const previewBtn = document.getElementById('preview-btn');
+            const previewAudio = document.getElementById('preview-audio');
+            const previewText = document.getElementById('preview-text');
+            const generateBtn = document.getElementById('generate-btn');
+            const textInput = document.getElementById('text-input');
+            const outputAudio = document.getElementById('output-audio');
+            const outputSection = document.getElementById('output-section');
+            const downloadLink = document.getElementById('download-link');
+            const currentVoiceName = document.getElementById('current-voice-name');
+            const currentVoiceOrigin = document.getElementById('current-voice-origin');
+            const durationDisplay = document.getElementById('duration-display');
+            
+            // Map voice codes to more readable names and descriptions
+            const voiceDescriptions = {
+                'en-GB-RyanNeural': 'British Male - Clear and professional',
+                'en-GB-SoniaNeural': 'British Female - Warm and articulate',
+                'en-US-JennyNeural': 'US Female - Natural and expressive',
+                'en-US-GuyNeural': 'US Male - Authoritative and clear',
+                'en-IN-NeerjaNeural': 'Indian Female - Culturally nuanced',
+                'en-IN-PrabhatNeural': 'Indian Male - Professional delivery',
+                'en-NZ-MitchellNeural': 'New Zealand Male - Distinct accent',
+                'en-NZ-MollyNeural': 'New Zealand Female - Friendly tone',
+                'en-IE-ConnorNeural': 'Irish Male - Engaging lilt',
+                'en-IE-EmilyNeural': 'Irish Female - Musical cadence',
+                'en-AU-NatashaNeural': 'Australian Female - Casual and friendly',
+                'en-AU-WilliamNeural': 'Australian Male - Strong and clear',
+                'en-CA-ClaraNeural': 'Canadian Female - Neutral accent',
+                'en-CA-LiamNeural': 'Canadian Male - Professional tone',
+                'en-PH-RosaNeural': 'Filipino Female - Warm delivery',
+                'en-PH-JamesNeural': 'Filipino Male - Clear pronunciation',
+                'en-ZA-LeahNeural': 'South African Female - Distinct accent',
+                'en-ZA-LukeNeural': 'South African Male - Authoritative',
+                'en-HK-SamNeural': 'Hong Kong Male - Neutral English',
+                'en-HK-YanNeural': 'Hong Kong Female - Clear articulation'
+            };
+            
+            // Update voice description when selection changes
+            voiceSelect.addEventListener('change', function() {
+                const selectedVoice = voiceSelect.value;
+                currentVoiceName.textContent = selectedVoice;
+                currentVoiceOrigin.textContent = voiceDescriptions[selectedVoice] || '';
+            });
+            
+            // Initialize with the first voice's description
+            currentVoiceOrigin.textContent = voiceDescriptions[voiceSelect.value] || '';
+            
+            // Preview voice button click handler
+            previewBtn.addEventListener('click', function() {
+                const voice = voiceSelect.value;
+                
+                // Add loading state
+                const originalContent = previewBtn.innerHTML;
+                previewBtn.innerHTML = `
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" class="animate-spin">
+                        <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
+                    </svg>
+                    Generating Preview...
+                `;
+                previewBtn.disabled = true;
+                
+                fetch('/preview_voice', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `voice=${encodeURIComponent(voice)}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                        return;
+                    }
+                    
+                    previewText.textContent = data.sample_text;
+                    previewAudio.src = data.preview_url;
+                    previewAudio.style.display = 'block';
+                    previewAudio.play();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to preview voice');
+                })
+                .finally(() => {
+                    // Reset button state
+                    previewBtn.innerHTML = originalContent;
+                    previewBtn.disabled = false;
+                });
+            });
+            
+            // Generate speech button click handler
+            generateBtn.addEventListener('click', function() {
+                const text = textInput.value.trim();
+                const voice = voiceSelect.value;
+                
+                if (!text) {
+                    alert('Please enter some text to convert');
+                    return;
+                }
+                
+                // Add loading state
+                const originalContent = generateBtn.innerHTML;
+                generateBtn.innerHTML = `
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" class="animate-spin">
+                        <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
+                    </svg>
+                    Generating Audio...
+                `;
+                generateBtn.disabled = true;
+                
+                fetch('/generate_speech', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `text=${encodeURIComponent(text)}&voice=${encodeURIComponent(voice)}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                        return;
+                    }
+                    
+                    outputAudio.src = data.output_url;
+                    outputSection.style.display = 'block';
+                    
+                    // Generate professional filename
+                    const now = new Date();
+                    const dateStr = now.toISOString().split('T')[0];
+                    const timeStr = now.toTimeString().split(' ')[0].replace(/:/g, '-');
+                    const voiceName = voice.split('-').slice(1).join('_');
+                    const truncatedText = text.length > 20 ? 
+                        text.substring(0, 20).replace(/[^a-zA-Z0-9]/g, ' ') + '...' : 
+                        text.replace(/[^a-zA-Z0-9]/g, ' ');
+                    const cleanText = truncatedText.replace(/\s+/g, '_');
+                    
+                    downloadLink.href = data.output_url;
+                    downloadLink.download = `NeonVoice_${voiceName}_${dateStr}_${timeStr}_${cleanText}.mp3`;
+                    
+                    // Update duration display when metadata is loaded
+                    outputAudio.onloadedmetadata = function() {
+                        const duration = outputAudio.duration;
+                        const minutes = Math.floor(duration / 60);
+                        const seconds = Math.floor(duration % 60);
+                        durationDisplay.textContent = 
+                            `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    };
+                    
+                    // Scroll to output
+                    outputSection.scrollIntoView({ behavior: 'smooth' });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to generate speech');
+                })
+                .finally(() => {
+                    // Reset button state
+                    generateBtn.innerHTML = originalContent;
+                    generateBtn.disabled = false;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
