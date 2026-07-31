@@ -1,47 +1,63 @@
+# Neon Voice Studio
+
+A professional Text-to-Speech (TTS) web application built with Python, Flask, and Microsoft Edge TTS, featuring 20+ neural voices with live preview capabilities and high-quality audio output.
+
+## Features
+
+* **20+ Neural Voices**: Choose from a diverse collection of international English neural voices (US, UK, Indian, Australian, Canadian, Irish, New Zealand, and more).
+* **Voice Previews**: Listen to custom audio samples for each specific voice before generating your final text output.
+* **Audio Generation & Storage**: Automatically handles asynchronous text-to-speech rendering, storing outputs and previews securely in dedicated static subdirectories.
+* **Clean Web Interface**: Styled with a responsive layout and professional dark-theme aesthetic.
+
+---
+
+## Technology Stack
+
+* **Backend**: Python, Flask, asyncio
+* **TTS Engine**: `edge-tts` (Microsoft Edge Text-to-Speech API wrapper)
+* **Frontend**: HTML5, CSS3, JavaScript
+
+---
+
+## Project Structure
+
+```text
 neon-voice-studio/
-├── app.py                # Main Flask application
-├── requirements.txt      # Dependencies
-├── static/               # Static files
-│   ├── outputs/          # Generated audio files
-│   └── previews/         # Voice preview files
-├── templates/
-│   └── index.html        # Main frontend template
-└── README.md             # This file
+├── app.py              # Main Flask application and TTS routing
+├── requirements.txt    # Python dependencies
+├── static/             # Static asset directory
+│   ├── outputs/        # Generated speech MP3 files
+│   └── previews/       # Voice sample preview MP3 files
+└── templates/
+    └── index.html      # Frontend user interface
 
+```
 
-# Neon Voice Studio - Professional TTS Generator
+---
 
-![Neon Voice Studio Demo](demo-screenshot.png) *(Replace with your actual screenshot)*
+## Setup & Installation
 
-A sleek, professional text-to-speech web application built with Flask and Edge TTS, featuring 20+ neural voices with preview capabilities and high-quality audio output.
+### 1. Prerequisites
 
-## Features ✨
+* Python 3.7+
+* `pip` package manager
 
-- **20+ Neural Voices**: Choose from a variety of English accents (US, UK, Indian, Australian, etc.)
-- **Voice Previews**: Listen to samples before generating full audio
-- **Professional Design**: Dark theme with subtle neon accents
-- **Advanced Features**:
-  - Audio duration display
-  - Professional filename generation for downloads
-  - Responsive layout works on all devices
-- **Real-time Processing**: Fast audio generation using Microsoft Edge TTS
+### 2. Dependencies
 
-## Technology Stack 🛠️
+Install the required Python packages:
 
-- **Backend**: Python + Flask
-- **TTS Engine**: Microsoft Edge TTS (`edge-tts`)
-- **Frontend**: HTML5, CSS3, JavaScript
-- **Styling**: Custom neon-themed CSS with animations
+```bash
+pip install flask edge-tts
 
-## Installation Guide 🚀
+```
 
-### Prerequisites
-- Python 3.7+
-- pip package manager
+### 3. Running the Application
 
-### Setup Steps
+Start the Flask development server:
 
-1. **Clone the repository**
-   ```bash
-   https://github.com/Rahul6158/Edge-TTS-20-voice-options-.git
-   cd neon-voice-studio
+```bash
+python app.py
+
+```
+
+Open your browser and navigate to `[http://127.0.0.1:5000](http://127.0.0.1:5000)` to start generating speech.
